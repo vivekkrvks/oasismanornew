@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 import { DoneOutline, ClearAll, DeleteForever, AccountCircle } from "@material-ui/icons/";
 import MySnackbar from "../Components/MySnackbar";
+import { todayDate } from "../Components/Style";
 import Progress from "./Progress";
 import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
@@ -114,6 +115,7 @@ class AddUser extends Component {
       acNo: "",
       abaNo: "",
       branch: "",
+      joiningDate: todayDate(),
       guest: "",
       selectedUserImg: null,
 
@@ -132,58 +134,56 @@ class AddUser extends Component {
     });
   };
   fileUpload = async (e, name) => {
-    if(e){
+    if (e) {
       this.setState({ loading: true });
-    if (name === "document") {
-      const selectedFile = e;
-      const data = new FormData();
-      data.append("photo", selectedFile, selectedFile.name);
-      await axios
-        .post(`/api/other/fileupload/upload`, data, {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`
-          }
-        })
-        .then(res =>
-          this.setState(prevState => ({
-            documents: [
-              { name: selectedFile.name, url: res.data.result.secure_url, format: res.data.result.format, size: res.data.result.bytes, public_id: res.data.result.public_id },
-              ...prevState.documents
-            ],
-            loading: false
-          }))
-        )
-        .catch(err => console.log(err));
-    } else if (name === "userImage") {
-      this.setState({
-        selectedUserImg: e
-      });
-      let reader = new FileReader();
-      let file = e;
-      reader.onloadend = () => {
+      if (name === "document") {
+        const selectedFile = e;
+        const data = new FormData();
+        data.append("photo", selectedFile, selectedFile.name);
+        await axios
+          .post(`/api/other/fileupload/upload`, data, {
+            headers: {
+              accept: "application/json",
+              "Accept-Language": "en-US,en;q=0.8",
+              "Content-Type": `multipart/form-data; boundary=${data._boundary}`
+            }
+          })
+          .then(res =>
+            this.setState(prevState => ({
+              documents: [
+                { name: selectedFile.name, url: res.data.result.secure_url, format: res.data.result.format, size: res.data.result.bytes, public_id: res.data.result.public_id },
+                ...prevState.documents
+              ],
+              loading: false
+            }))
+          )
+          .catch(err => console.log(err));
+      } else if (name === "userImage") {
         this.setState({
-          userImage: reader.result
+          selectedUserImg: e
         });
-      };
-      file && reader.readAsDataURL(file);
-      const data = new FormData();
-      data.append("photo", file, file.name);
-      await axios
-        .post(`/api/other/fileupload/upload`, data, {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`
-          }
-        })
-        .then(res => this.setState({ userImage: res.data.result.secure_url, loading: false }))
-        .catch(err => console.log(err));
+        let reader = new FileReader();
+        let file = e;
+        reader.onloadend = () => {
+          this.setState({
+            userImage: reader.result
+          });
+        };
+        file && reader.readAsDataURL(file);
+        const data = new FormData();
+        data.append("photo", file, file.name);
+        await axios
+          .post(`/api/other/fileupload/upload`, data, {
+            headers: {
+              accept: "application/json",
+              "Accept-Language": "en-US,en;q=0.8",
+              "Content-Type": `multipart/form-data; boundary=${data._boundary}`
+            }
+          })
+          .then(res => this.setState({ userImage: res.data.result.secure_url, loading: false }))
+          .catch(err => console.log(err));
+      }
     }
-
-    }
-    
   };
   handleSave = () => {
     this.setState({ loading: true });
@@ -207,6 +207,7 @@ class AddUser extends Component {
       acNo: this.state.acNo,
       abaNo: this.state.abaNo,
       branch: this.state.branch,
+      joiningDate: this.state.joiningDate,
       guest: this.state.guest
     };
     axios
@@ -240,6 +241,7 @@ class AddUser extends Component {
       acNo: "",
       abaNo: "",
       branch: "",
+      joiningDate: todayDate(),
       guest: "",
 
       selectedUserImg: null,
@@ -257,7 +259,7 @@ class AddUser extends Component {
           .then(() =>
             this.setState(
               prevState => ({
-                documents: [...prevState.documents.splice(i, i+1)]
+                documents: [...prevState.documents.splice(i, i + 1)]
               }),
               () => this.handleSave()
             )
@@ -318,6 +320,7 @@ class AddUser extends Component {
           acNo: res.data[0].acNo,
           abaNo: res.data[0].abaNo,
           branch: res.data[0].branch,
+          joiningDate: res.data[0].joiningDate,
           guest: res.data[0].guest,
           loading: false
         });
@@ -582,6 +585,20 @@ class AddUser extends Component {
                 </Grid>
                 <Grid item xs={6} md={4}>
                   <TextField label="Branch Address" fullWidth value={this.state.branch} onChange={this.handleChange("branch")} />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    id="Date"
+                    label="Joing Date"
+                    margin="dense"
+                    value={this.state.joiningDate}
+                    onChange={this.handleChange("joiningDate")}
+                    type="date"
+                    fullWidth
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
                 </Grid>
                 {this.state.designation === "Family" && (
                   <Grid item xs={12} md={4}>

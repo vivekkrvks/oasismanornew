@@ -27,13 +27,17 @@ const requestfacilities = require("./routes/api/emp/requestfacilities");
 
 // report
 const cb = require("./routes/api/report/transactionreport/cb");
+const alltransaction = require("./routes/api/report/transactionreport/alltransaction");
+const userchart = require("./routes/api/report/chart/userchart");
+const enquiryList = require("./routes/api/report/chart/enquiryList");
+const enqgraph = require("./routes/api/report/chart/enqgraph");
 
 // other
 const room = require("./routes/api/other/room");
 const fileupload = require("./routes/api/other/fileupload");
 
 const app = express();
-
+ 
 app.use(upload({ useTempFiles: true }));
 app.use(cors());
 
@@ -42,12 +46,13 @@ app.use(bodyparser.urlencoded({ extended: false, limit: "50mb" }));
 app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, "client/build")))
 
+
 //mongoDB configuration
 const db = require("./setup/myurl").mongoURL;
 
 //Attempt to connect to database
 mongoose
-  .connect(db)
+  .connect(db , { useNewUrlParser: true })
   .then(() => console.log(" MongoDB connected successfully"))
   .catch(err => console.log(err));
 
@@ -72,6 +77,10 @@ app.use("/api/emp/requestfacilities", requestfacilities);
 
 //report
 app.use("/api/report/transactionreport/cb", cb);
+app.use("/api/report/transactionreport/alltransaction", alltransaction);
+app.use("/api/report/chart/userchart", userchart);
+app.use("/api/report/chart/enquiryList", enquiryList);
+app.use("/api/report/chart/enqgraph", enqgraph);
 //other
 app.use("/api/other/room", room);
 app.use("/api/other/fileupload", fileupload);
@@ -89,3 +98,4 @@ app.get("/*", function(req, res) {
 const port = process.env.PORT || 2030;
 
 app.listen(port, () => console.log(` App is running at ${port}`));
+

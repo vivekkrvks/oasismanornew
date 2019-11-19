@@ -98,21 +98,20 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const id = req.params.id;
+    if ((id == "5d74a34681502b493497d8a5")) {
+      res.json({ message: "You Can't Delete Cash Ledger" });
+    } else{
     MopVoucher.findOne({ _id: id }).then(mopVoucherResult => {
-      if (mopVoucherResult) {
-        if ((mopVoucher.accountNo = "N.A")) {
-          res.json({ message: "You Can't Delete Cash Ledger" });
-        } else {
+   
           MopVoucher.findOneAndDelete({ _id: id })
             .then(() => res.json({ message: "Deleted successfully" }))
             .catch(err =>
               res.json("Failed to delete due to this error - " + err)
             );
         }
-      } else {
-        res.status(400).json({ message: "Payment Voucher Not Found" });
-      }
-    });
+       
+    )
+  }
   }
 );
 

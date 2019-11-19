@@ -14,7 +14,7 @@ const Room = require("./../../../models/Other/Room");
 // @access  PUBLIC
 
 router.post("/", (req, res) => {
-  const adminmailId = "raghav.kr.roshan@gmail.com";
+  const adminmailId = "vivek.ec.soe.cusat@gmail.com";
   const name = req.body.name;
   const email = req.body.email;
   const mobileNo = req.body.mobile;

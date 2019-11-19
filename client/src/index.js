@@ -7,6 +7,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import lightGreen from "@material-ui/core/colors/lightGreen";
 import { deepPurple, green } from "@material-ui/core/colors";
+import { MainProvider } from "./Components/MainContext";
 
 const theme = createMuiTheme({
   palette: {
@@ -18,16 +19,18 @@ const theme = createMuiTheme({
     danger: "orange"
   },
   typography: {
-    fontFamily: ["Courgette", "sans-serif", "BlinkMacSystemFont"].join(",")
+    fontFamily: ["Courgette", "serif", "BlinkMacSystemFont"].join(",")
   }
 });
 
 ReactDOM.render(
-  <BrowserRouter>
-    <MuiThemeProvider theme={theme}>
-      <App />
-    </MuiThemeProvider>
-  </BrowserRouter>,
+  <MainProvider>
+    <BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
+    </BrowserRouter>
+  </MainProvider>,
   document.getElementById("root")
 );
 

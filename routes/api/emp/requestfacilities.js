@@ -27,6 +27,8 @@ router.post(
     requestFacilitiesValues.name = req.user.name;
     requestFacilitiesValues.date = req.body.date;
     requestFacilitiesValues.voucherNo = req.body.voucherNo;
+    requestFacilitiesValues.total = req.body.total;
+
 
     requestFacilitiesValues.facilities = req.body.facilities;
 
@@ -237,6 +239,7 @@ router.post(
       };
       requestFacilitiesValues.user = req.user.id;
       requestFacilitiesValues.date = req.body.date;
+      requestFacilitiesValues.total = req.body.total;
       requestFacilitiesValues.voucherNo = req.body.voucherNo;
   
       requestFacilitiesValues.facilities = req.body.facilities;

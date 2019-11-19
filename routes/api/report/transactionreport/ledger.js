@@ -1,21 +1,4 @@
-const express = require("express");
-const router = express.Router();
-const mongoose = require("mongoose");
-const passport = require("passport");
-const bodyParser = require("body-parser");
-
-//Load Person Model
-const Person = require("../../../../models/Person");
-
-//Load AddLedger Model
-const AddLedger = require("../../../../models/Ledgers/AddLedger");
-//Load Transaction model
-const ReceiptVoucher = require("../../../../models/Transaction/ReceiptVoucher");
-const PaymentVoucher = require("../../../../models/Transaction/PaymentVoucher");
-const OrderBooking = require("../../../../models/Transaction/OrderBooking");
-const PurchaseOrder = require("../../../../models/Transaction/PurchaseOrder");
-const PurchaseVoucher = require("../../../../models/Transaction/PurchaseVoucher");
-const SaleVoucher = require("../../../../models/Transaction/SaleVoucher");
+ 
 
 let indivisualCurrentBal;
 let inDebit;

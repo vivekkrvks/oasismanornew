@@ -12,9 +12,11 @@ import Pricing from "../Website/Pricing";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "../Website/Payment";
 import Receipt from "../Website/Receipt";
+import AddFacilities from "./AddFacility";
 import RequestFacilities from "../Website/RequestFacilities";
 import Utility from "../Website/Utility";
 import Contact from "../Website/Contact";
+import Transaction from "../Website/Transaction";
 // Check for token
 if (localStorage.token) {
   // Set auth token header auth
@@ -50,9 +52,11 @@ export class MainRoute extends Component {
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/adduser" component={AddUser} />
         <PrivateRoute path="/utility" component={Utility} />
-        <PrivateRoute path="/requestFacilities" component={RequestFacilities} />
+        <PrivateRoute path="/addfacility" component={AddFacilities} />
+        <PrivateRoute path="/requestfacilities" component={RequestFacilities} />
         <PrivateRoute path="/payment" component={Payment} />
         <PrivateRoute path="/receipt" component={Receipt} />
+        <PrivateRoute path="/transaction" component={Transaction} />
       </Switch>
     );
   }

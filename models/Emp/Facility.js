@@ -16,6 +16,9 @@ const FacilitiesSchema = new Schema({
 
   remarks: {
     type: String
+  },currentdate: {
+    type: Date,
+    default: Date.now
   }
 });
 

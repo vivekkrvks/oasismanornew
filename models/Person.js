@@ -5,6 +5,9 @@ const PersonSchema = new Schema({
   name: {
     type: String
   },
+  joiningDate: {
+    type: String
+  },
   designation: {
     type: String
   },

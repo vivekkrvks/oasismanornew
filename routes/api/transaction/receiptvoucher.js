@@ -230,7 +230,7 @@ router.get(
     const search = req.params.searchreceipt;
     if (isNaN(search)) {
       ReceiptVoucher.find({
-        "ledger.value": new RegExp(search, "i")
+        "ledger.label": new RegExp(search, "i")
       }).then(receivedVoucherResult => res.json(receivedVoucherResult));
     } else {
       ReceiptVoucher.find({

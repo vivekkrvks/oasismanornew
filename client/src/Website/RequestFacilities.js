@@ -107,7 +107,7 @@ class RequestFacilities extends Component {
       visualToFamily: this.state.visualToFamily,
       paid: this.state.paid,
       refNo: this.state.refNo,
-      voucherNo:this.state.voucherNo,
+      voucherNo: this.state.voucherNo,
       document: this.state.document,
       remarks: this.state.remarks
     };

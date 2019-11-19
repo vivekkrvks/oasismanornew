@@ -31,6 +31,11 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center"
   },
+  topPara: {
+    [theme.breakpoints.up("md")]: {
+      marginTop: theme.spacing(6)
+    }
+  },
   featureBox: {
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
@@ -138,18 +143,19 @@ class Home extends Component {
         </Carousel>
         <Grid className="bgArea">
           <Container>
-            <Typography align="center" color="secondary" gutterBottom variant="h6">
+            <Typography align="center" color="secondary" variant="h6">
               Services at your fingertips
             </Typography>
-            <br />
-
+            <Typography align="center" gutterBottom variant="body1">
+              Highly interactive & user-friendly interface
+            </Typography>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <Link to="/">
-                  <img style={{ float: "right" }} src="https://i.ibb.co/NNKPczk/home-care-questionnaire-spotlight.png" alt="home-care-questionnaire-spotlight" border="0" />
+                  <img style={{ float: "right" }} src="https://i.ibb.co/wYDCPCh/oasis-manor.png" alt="oasis-Dashboard" border="0" />
                 </Link>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} className={classes.topPara}>
                 <Typography gutterBottom variant="h6">
                   Get all live updates online
                 </Typography>

@@ -40,6 +40,7 @@ router.post("/register", passport.authenticate("jwt", { session: false }), (req,
                 const newPerson = new Person({
                   name: req.body.name,
                   designation: req.body.designation,
+                  joiningDate: req.body.joiningDate,
                   mobile: req.body.mobile,
                   address: req.body.address,
                   state: req.body.state,
@@ -133,23 +134,27 @@ router.post("/login", (req, res) => {
             // });
             //use payload and create token for user
             const payload = {
-              id: person.id,
-              emailId: person.emailId,
+              id: person._id,
+            
+              designation: person.designation ,
+              userImage: person.userImage,
 
-              designation: person.designation,
-              name: person.employeeName
+              name: person.name
             };
             jsonwt.sign(payload, key.secret, { expiresIn: 43200 }, (err, token) => {
               res.json({
                 success: true,
                 token: "Bearer " + token,
+              id: person._id,
+
                 message: "login success",
                 emailId: person.emailId,
+                userImage: person.userImage,
                 designation: person.designation ,
                 name: person.name
               });
               const decoded = jwt_decode(token);
-              console.log(decoded);
+             
             });
           } else {
             res.status(400).json({ message: "password is not correct", variant: "error" });
@@ -282,6 +287,7 @@ router.post("/register/:id", passport.authenticate("jwt", { session: false }), (
  
    
       if (req.body.name) newPerson.name = req.body.name;
+      if (req.body.joiningDate) newPerson.joiningDate = req.body.joiningDate;
       if (req.body.designation) newPerson.designation = req.body.designation;
       if (req.body.mobile) newPerson.mobile = req.body.mobile;
       if (req.body.address) newPerson.address = req.body.address;
@@ -308,6 +314,93 @@ router.post("/register/:id", passport.authenticate("jwt", { session: false }), (
        
       };
       newPerson.documents = req.body.documents;
+
+      //end of getting values
+
+
+      // Save the file name into database into profile model
+
+      //Encrypt password using bcrypt
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPerson.password, salt, (err, hash) => {
+          if (err) throw err;
+          newPerson.password = hash;
+        });
+      });
+
+      if (des == des1 || des == des2) {
+        Person.findById(decoded.id).then(person => {
+          if (person) {
+            Person.findOneAndUpdate({ _id: id }, { $set: newPerson }, { new: true })
+              .then(Person =>
+                res.json({
+                  message: "Updated successfully!!",
+                  variant: "success"
+                })
+              )
+              .catch(err => res.json("unable to update" + err));
+          } else {
+            res.status(400).json({
+              message: "not upading with some prob",
+              variant: "error"
+            });
+          }
+        });
+      } else {
+        res.json({
+          message: "You are not authorised ",
+          variant: "error"
+        });
+      }
+    
+  
+});
+
+// @type    POST
+//@route    /api/auth/register/pass/:id
+// @desc    route for simple update data
+// @access  PRIVATE
+router.post("/register/pass/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
+  const id = req.params.id;
+  const newPerson = {};
+  const decoded = jwt_decode(req.headers.authorization);
+
+  var des = req.user.designation;
+  var des1 = "Admin";
+  var des2 = "Manager";
+
+ 
+   
+      if (req.body.name) newPerson.name = req.body.name;
+      if (req.body.joiningDate) newPerson.joiningDate = req.body.joiningDate;
+      if (req.body.designation) newPerson.designation = req.body.designation;
+      if (req.body.mobile) newPerson.mobile = req.body.mobile;
+      if (req.body.address) newPerson.address = req.body.address;
+
+      if (req.body.state) newPerson.state = req.body.state;
+      if (req.body.pinCode) newPerson.pinCode = req.body.pinCode;
+      if (req.body.emailId) newPerson.emailId = req.body.emailId;
+      if (req.body.newPass) newPerson.password = req.body.newPass;
+      newPerson.value = req.body.newPass;
+      if (req.body.remarks) newPerson.remarks = req.body.remarks;
+      if (req.body.salary) newPerson.salary = req.body.salary;
+      if (req.body.duration) newPerson.duration = req.body.duration;
+      if (req.body.beneficiary) newPerson.beneficiary = req.body.beneficiary;
+      if (req.body.bankName) newPerson.bankName = req.body.bankName;
+      if (req.body.acNo) newPerson.acNo = req.body.acNo;
+      if (req.body.abaNo) newPerson.abaNo = req.body.abaNo;
+      if (req.body.guest) newPerson.guest = req.body.guest;
+
+
+      if (req.body.branch) newPerson.branch = req.body.branch;
+
+      if (req.body.userImage) {
+        newPerson.userImage = req.body.userImage;
+       
+      };
+       
+     
+     if(req.body.documents){ newPerson.documents = req.body.documents;};
 
       //end of getting values
 

@@ -46,8 +46,7 @@ router.post(
               //Username already exists
               if (utility) {
                 res.json({
-                  message: "Utility Already exist ",
-                  variant: "error"
+                  message: "Utility Already exist "
                 });
               } else {
                 //save user
@@ -55,8 +54,7 @@ router.post(
                   .save()
                   .then(
                     res.json({
-                      message: "Successfully saved",
-                      variant: "success"
+                      message: "Successfully saved"
                     })
                   )
                   .catch(err => console.log(err));
@@ -68,8 +66,7 @@ router.post(
             .save()
             .then(
               res.json({
-                message: "First Utility is saved",
-                variant: "success"
+                message: "First Utility is saved"
               })
             )
             .catch(err => console.log(err));
@@ -93,7 +90,7 @@ router.get(
       .catch(err =>
         res
           .status(404)
-          .json({ message: "No Utility Found", variant: "error" })
+          .json({ message: "No Utility Found" })
       );
   }
 );
@@ -140,7 +137,7 @@ router.post(
     )
 
       .then(() =>
-        res.json({ message: "Updated successfully!!", variant: "success" })
+        res.json({ message: "Updated successfully!!" })
       )
 
       .catch(err =>
@@ -185,7 +182,7 @@ router.delete(
       if (UtilityResult) {
         Utility.findOneAndDelete({ _id: id })
           .then(() =>
-            res.json({ message: "Deleted successfully", variant: "success" })
+            res.json({ message: "Deleted successfully" })
           )
           .catch(err =>
             res.json("Failed to delete due to this error - " + err)
@@ -193,7 +190,7 @@ router.delete(
       } else {
         res
           .status(400)
-          .json({ message: "utility Voucher Not Found", variant: "error" });
+          .json({ message: "utility Voucher Not Found"});
       }
     });
   }

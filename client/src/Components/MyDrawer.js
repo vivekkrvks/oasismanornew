@@ -11,12 +11,14 @@ import {
   FaHeadset,
   FaUserCog,
   FaSignOutAlt,
+  FaReceipt,
   FaArrowCircleUp,
   FaArrowCircleDown,
   FaDonate,
   FaUserCircle,
   FaPeopleCarry
 } from "react-icons/fa";
+
 const styles = theme => ({
   drawer: {
     width: 300,
@@ -47,32 +49,34 @@ const styles = theme => ({
     textDecoration: "none"
   }
 });
+
 export class MyDrawer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       designation: "Visitor",
-      userName: "Guest",
+      name: "Guest",
       userImage: "https://i.ibb.co/6wHq3Zw/guest.jpg"
     };
   }
   componentWillReceiveProps = () => {
     if (localStorage.designation) {
       let designation = localStorage.designation;
-      this.setState({ designation });
+      let name = localStorage.name;
+      let userImage = localStorage.userImage;
+      this.setState({ designation, name, userImage });
     }
   };
 
   render() {
     const { classes } = this.props;
-
     return (
       <section className={classes.drawer}>
         <div className={classes.topArea}>
           <span className={classes.avatarPosition}>
             <center>
-              <Chip label={` Welcome ~  ${this.state.designation}`} color="primary" className={classes.chip} />
+              <Chip label={` Welcome ~  ${this.state.name}`} color="primary" className={classes.chip} />
               <Avatar alt="user-Img" src={this.state.userImage} className={classes.avatar} />
             </center>
           </span>
@@ -98,6 +102,16 @@ export class MyDrawer extends Component {
                     <FaUserCog />
                   </ListItemIcon>
                   <ListItemText primary="Add User" />
+                </ListItem>
+              </Link>
+            </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/addfacility" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaPeopleCarry />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Facility" />
                 </ListItem>
               </Link>
             </span>
@@ -128,6 +142,16 @@ export class MyDrawer extends Component {
                     <FaArrowCircleDown />
                   </ListItemIcon>
                   <ListItemText primary="Receipt" />
+                </ListItem>
+              </Link>
+            </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/transaction" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaReceipt />
+                  </ListItemIcon>
+                  <ListItemText primary="Show Transaction" />
                 </ListItem>
               </Link>
             </span>
@@ -174,6 +198,26 @@ export class MyDrawer extends Component {
                 </ListItem>
               </Link>
             </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/transaction" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaReceipt />
+                  </ListItemIcon>
+                  <ListItemText primary="Show Transaction" />
+                </ListItem>
+              </Link>
+            </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/addfacility" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaPeopleCarry />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Facility" />
+                </ListItem>
+              </Link>
+            </span>
           </List>
         ) : this.state.designation === "Worker" ? (
           <List component="nav" aria-label="Main Drawer">
@@ -188,22 +232,22 @@ export class MyDrawer extends Component {
               </Link>
             </span>
             <span onClick={this.props.handleDrawer}>
-              <Link to="/addUser" className={classes.anchor}>
-                <ListItem button>
-                  <ListItemIcon>
-                    <FaUserCog />
-                  </ListItemIcon>
-                  <ListItemText primary="Add User" />
-                </ListItem>
-              </Link>
-            </span>
-            <span onClick={this.props.handleDrawer}>
               <Link to="/utility" className={classes.anchor}>
                 <ListItem button>
                   <ListItemIcon>
                     <FaDonate />
                   </ListItemIcon>
                   <ListItemText primary="Upload Utility" />
+                </ListItem>
+              </Link>
+            </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/transaction" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaReceipt />
+                  </ListItemIcon>
+                  <ListItemText primary="Show Transaction" />
                 </ListItem>
               </Link>
             </span>
@@ -227,6 +271,16 @@ export class MyDrawer extends Component {
                     <FaPeopleCarry />
                   </ListItemIcon>
                   <ListItemText primary="Request Services" />
+                </ListItem>
+              </Link>
+            </span>
+            <span onClick={this.props.handleDrawer}>
+              <Link to="/transaction" className={classes.anchor}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaReceipt />
+                  </ListItemIcon>
+                  <ListItemText primary="Show Transaction" />
                 </ListItem>
               </Link>
             </span>

@@ -12,6 +12,9 @@ import {
   Paper,
   IconButton,
   Fab,
+  Dialog,
+  DialogContent,
+  DialogActions,
   LinearProgress,
   Tooltip,
   Table,
@@ -22,7 +25,8 @@ import {
   TablePagination,
   TableFooter
 } from "@material-ui/core";
-import { DoneOutline, ClearAll, DeleteForever, AccountBalanceWallet, Image } from "@material-ui/icons/";
+import { DoneOutline, ClearAll, DeleteForever, Delete, Close, AccountBalanceWallet, Image } from "@material-ui/icons/";
+import AddIcon from "@material-ui/icons/Add";
 import MySnackbar from "../Components/MySnackbar";
 import Progress from "../Components/Progress";
 import axios from "axios";
@@ -47,6 +51,9 @@ class Utility extends Component {
       remarks: "",
 
       loading: false,
+      showDialog: false,
+      tempUtility: "",
+      message: "List of All Utilities",
 
       allLedgers: [],
       allUtility: [],
@@ -175,6 +182,23 @@ class Utility extends Component {
       .catch(err => console.log(err));
     this.setState({ loading: false });
   };
+  addNewUtility = () => {
+    let newUtility = { utility: this.state.tempUtility };
+    if (newUtility.utility) {
+      axios
+        .post("/api/emp/utility/", newUtility)
+        .then(res => this.setState({ message: res.data.message }, () => this.getUtility()))
+        .catch(err => console.log(err));
+    } else {
+      this.setState({ message: "Write Utility Name" });
+    }
+  };
+  deleteUtility = id => {
+    axios
+      .delete(`/api/emp/utility/deleteutility/${id}`)
+      .then(res => this.setState({ message: res.data.message }, () => this.getUtility()))
+      .catch(err => console.log(err));
+  };
 
   setUtilityData = id => {
     let route = " /api/emp/uploadutility/get/";
@@ -199,7 +223,6 @@ class Utility extends Component {
   };
   render() {
     const { classes } = this.props;
-
     return (
       <Fragment>
         <Grid container>
@@ -245,7 +268,7 @@ class Utility extends Component {
                       {this.state.voucherNo && `Voucher No. : ${this.state.voucherNo}`}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={11}>
                     <Select
                       value={this.state.utility}
                       onChange={this.handleSelectChange("utility")}
@@ -258,6 +281,11 @@ class Utility extends Component {
                       autoFocus
                       placeholder="Select Utility ..."
                     />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton onClick={() => this.setState({ showDialog: true })} color="primary" size="small" aria-label="add" className={classes.fab}>
+                      <AddIcon />
+                    </IconButton>
                   </Grid>
                   <Grid item xs={6} md={4}>
                     <TextField label="Amount Paid" placeholder="$" type="number" variant="outlined" value={this.state.amount} onChange={this.handleChange("amount")} />
@@ -344,8 +372,48 @@ class Utility extends Component {
             </Grid>
           </Grid>
           {/* Below -> SnackBar for message print */}
-          {this.state.loading && <Progress loading={this.state.loading} />}
+          {this.state.loading && <Progress />}
           <MySnackbar onRef={ref => (this.child = ref)} />
+
+          {/* Below is Add New Utility Dialog  */}
+          <Dialog maxWidth="lg" open={this.state.showDialog} onClose={() => this.setState({ showDialog: false })} aria-labelledby="show-Add-Utility">
+            <Typography color="primary" align="center" gutterBottom>
+              {this.state.message}
+            </Typography>
+            <DialogContent>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <TextField placeholder="New Utility" onChange={this.handleChange("tempUtility")} value={this.state.tempUtility} />
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton onClick={() => this.addNewUtility()} aria-label="close" size="medium">
+                        <AddIcon fontSize="inherit" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                  {this.state.allUtility.map(row => (
+                    <TableRow key={row._id}>
+                      <TableCell component="th" scope="row">
+                        {row.utility}
+                      </TableCell>
+                      <TableCell align="right">
+                        <IconButton onClick={() => this.deleteUtility(row._id)} aria-label="close" size="small">
+                          <Delete fontSize="inherit" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </DialogContent>
+            <DialogActions>
+              <IconButton onClick={() => this.setState({ showDialog: false })} aria-label="close" size="medium">
+                <Close fontSize="inherit" />
+              </IconButton>
+            </DialogActions>
+          </Dialog>
 
           {/* Below is serch Section */}
 

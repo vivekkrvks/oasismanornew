@@ -5,6 +5,7 @@ import setAuthToken from "../utils/setAuthToken";
 import { withStyles, Avatar, Button, Paper, Typography, InputAdornment, FormControlLabel, Switch, TextField, Container } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/LockOutlined";
 import axios from "axios";
+
 const styles = theme => ({
   root: {
     width: "auto",
@@ -81,6 +82,9 @@ class Login extends Component {
         .then(res => {
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("designation", res.data.designation);
+          localStorage.setItem("userImage", res.data.userImage);
+          localStorage.setItem("name", res.data.name);
+          localStorage.setItem("id", res.data.id);
           this.setState({ loggedIn: true });
           setAuthToken(res.data.token);
         })

@@ -159,7 +159,7 @@ router.get(
       const search = req.params.searchutility;
       if (isNaN(search)) {
         UploadUtility.find({
-          "ledger.label": new RegExp(search, "i")
+          "utility.label": new RegExp(search, "i")
         }).then(UploadUtility => res.json(UploadUtility));
       } else {
         UploadUtility.find({
@@ -173,7 +173,7 @@ router.get(
           const search = req.params.searchutility;
       if (isNaN(search)) {
         UploadUtility.find({
-          "ledger.label": new RegExp(search, "i")
+          "utility.label": new RegExp(search, "i")
         }).then(UploadUtility => res.json(UploadUtility));
       } else {
         UploadUtility.find({

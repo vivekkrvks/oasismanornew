@@ -38,6 +38,9 @@ const RequestFacilitySchema = new Schema({
   refNo: {
     type: String
   },
+  total: {
+    type: String
+  },
   document: {
     type: String,
     default:""

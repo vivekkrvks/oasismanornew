@@ -19,6 +19,13 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    var des = req.user.designation;
+    var des1 = "Admin";
+    var des2 = "Manager";
+
+    if (des == des1 || des == des2) {
+
+    
     const facilityValues = {
       
     };
@@ -77,7 +84,13 @@ router.post(
         }
       })
       .catch(err => console.log("Problem in fetching facility" + err));
-  }
+    } else {
+      res.json({
+        message: "you are not authorised",
+        variant: "success"
+      })
+    }
+    }
 );
 
 // @type    GET
@@ -122,6 +135,11 @@ router.post(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    var des = req.user.designation;
+    var des1 = "Admin";
+    var des2 = "Manager";
+
+    if (des == des1 || des == des2) {
     const facilityValues = {
       
     };
@@ -148,6 +166,9 @@ router.post(
       .catch(err =>
         console.log("Problem in updating facility value" + err)
       );
+    } else {
+      res.json({ message: "You are not Authorised", variant: "success" })
+    }
   }
 );
 
@@ -182,6 +203,11 @@ router.delete(
   "/deletefacility/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    var des = req.user.designation;
+    var des1 = "Admin";
+    var des2 = "Manager";
+
+    if (des == des1 || des == des2) {
     const id = req.params.id;
     Facility.findOne({ _id: id }).then(FacilityResult => {
       if (FacilityResult) {
@@ -198,6 +224,9 @@ router.delete(
           .json({ message: "facility Voucher Not Found", variant: "error" });
       }
     });
+  } else {
+    res.json({ message: "you are not Authorised", variant: "error" })
+  }
   }
 );
 
